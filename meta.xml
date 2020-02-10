@@ -1,0 +1,50 @@
+<meta>
+    <oop>true</oop>
+    <download_priority_group>1</download_priority_group>
+    <include resource="assets"/>
+    <include resource="utils"/>
+    <info author="Viktor, Tails" version="2020-02-11" type="script" name="DX UI"/>
+
+    <script type="client" src="utils.lua"/>
+    <script type="client" src="Fonts.lua"/>
+    <script type="client" src="Drawing.lua"/>
+    <script type="client" src="Emitter.lua"/>
+    <script type="client" src="Component.lua"/>
+    <script type="client" src="Messages.lua"/>
+    <script type="client" src="Elements.lua"/>
+    <script type="client" src="Render.lua"/>
+    <script type="client" src="RenderTarget3D.lua"/>
+    <script type="client" src="main.lua"/>
+    <script type="client" src="exports.lua"/>
+
+    <!--    Components  -->
+    <script type="client" src="components/Layout.lua"/>
+    <script type="client" src="components/DragArea.lua"/>
+    <script type="client" src="components/Scrollbar.lua"/>
+    <script type="client" src="components/Content.lua"/>
+    <script type="client" src="components/Input.lua"/>
+    <script type="client" src="components/Button.lua"/>
+    <script type="client" src="components/Checkbox.lua"/>
+    <script type="client" src="components/Label.lua"/>
+    <script type="client" src="components/FrameLabel.lua"/>
+    <script type="client" src="components/Image.lua"/>
+    <script type="client" src="components/MessageBox.lua"/>
+
+    <!--    Exports -->
+    <export type="client" function="fadeScreen"/>
+    <export type="client" function="forceRotation"/>
+    <export type="client" function="addChild"/>
+    <export type="client" function="delete"/>
+    <export type="client" function="getRenderTarget"/>
+    <export type="client" function="createMessage"/>
+    <export type="client" function="isMessageActive"/>
+    <export type="client" function="setMessageText"/>
+    <export type="client" function="createContent"/>
+    <export type="client" function="createInput"/>
+    <export type="client" function="createButton"/>
+    <export type="client" function="createCheckbox"/>
+    <export type="client" function="createLabel"/>
+    <export type="client" function="createFrameLabel"/>
+    <export type="client" function="createImage"/>
+    <export type="client" function="exec"/>
+</meta>
