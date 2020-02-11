@@ -98,7 +98,7 @@ function FrameLabel:draw()
         return
     end
 
-    self.mouseOver = Render.mouseX and isPointInRect(Render.mouseX, Render.mouseY, self.x, self.y, self.width, self.height)
+    self.mouseOver = self.mouseX and isPointInRect(self.mouseX, self.mouseY, 0, 0, self.width, self.height)
 
     Drawing.setColor(self.layout.bgColor)
     Drawing.rectangle(self.x, self.y, self.width, self.height)

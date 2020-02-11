@@ -52,7 +52,8 @@ function Component:render(mouseX, mouseY)
     self.mouseX = mouseX
     self.mouseY = mouseY
 
-    local parent = self.parent
+    local parent = self:getParent()
+
     if parent then
         self.x = self.ox + parent.offsetX
         self.y = self.oy + parent.offsetY
@@ -75,7 +76,7 @@ function Component:render(mouseX, mouseY)
 
     Drawing.translate(-self.x, -self.y)
 
-    self.mouseOver = isPointInRect(mouseX, mouseY, 0, 0, self.width, self.height)
+    self.mouseOver = (self.focused or not parent) and isPointInRect(mouseX, mouseY, 0, 0, self.width, self.height)
     self:drawTooltip(mouseX, mouseY)
 end
 
@@ -145,6 +146,14 @@ end
 
 function Component:getRootComponent()
     return getRootComponent(self)
+end
+
+function Component:isParentRoot()
+    return self.parent and self.parent == self:getRootComponent() or false
+end
+
+function Component:getParent()
+    return not self:isParentRoot() and self.parent or false
 end
 
 function Component:getIndex()

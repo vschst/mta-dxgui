@@ -18,7 +18,7 @@ function DragArea.create(properties)
 end
 
 function DragArea:draw()
-    local parent = self.parent
+    local parent = self.getParent()
 
     if not parent then
         return
@@ -36,9 +36,9 @@ function DragArea:draw()
     self.height = self.height ~= 0 and self.height or parent.height
 
     local pmx, pmy = self.pmx, self.pmy
-    local mo = parent.focused and Render.mouseX and isPointInRect(Render.mouseX, Render.mouseY, x, y, self.width, self.height)
+    local mo = parent.focused and self.mouseX and isPointInRect(self.mouseX, self.mouseY, 0, 0, self.width, self.height)
 
-    if pmx and Render.mouseX and self.mouseDown and mo or Render.mouseX and self.mouseDown and self.dragging then
+    if pmx and self.mouseX and self.mouseDown and mo or self.mouseX and self.mouseDown and self.dragging then
         local children = self.children
 
         for k, component in pairs(children) do
@@ -53,15 +53,15 @@ function DragArea:draw()
 
         if parentParent then
             if parent.type == 'image' then
-                parent.ox = utils:constrain(parent.ox + (Render.mouseX - pmx), 0, parentParent.width - width - parentParent.offsetX)
-                parent.oy = utils:constrain(parent.oy + (Render.mouseY - pmy), 0, parentParent.height - height - parentParent.offsetY)
+                parent.ox = utils:constrain(parent.ox + (self.mouseX - pmx), 0, parentParent.width - width - parentParent.offsetX)
+                parent.oy = utils:constrain(parent.oy + (self.mouseY - pmy), 0, parentParent.height - height - parentParent.offsetY)
             else
-                parent.ox = utils:constrain(parent.ox + (Render.mouseX - pmx), 0, parentParent.width - parent.width - parentParent.offsetX)
-                parent.oy = utils:constrain(parent.oy + (Render.mouseY - pmy), 0, parentParent.height - parent.height - parentParent.offsetY)
+                parent.ox = utils:constrain(parent.ox + (self.mouseX - pmx), 0, parentParent.width - parent.width - parentParent.offsetX)
+                parent.oy = utils:constrain(parent.oy + (self.mouseY - pmy), 0, parentParent.height - parent.height - parentParent.offsetY)
             end
         else
-            parent.x = parent.x + (Render.mouseX - pmx)
-            parent.y = parent.y + (Render.mouseY - pmy)
+            parent.x = parent.x + (self.mouseX - pmx)
+            parent.y = parent.y + (self.mouseY - pmy)
         end
 
         self.dragging = true
@@ -69,7 +69,7 @@ function DragArea:draw()
         self.dragging = false
     end
 
-    self.pmx, self.pmy = Render.mouseX, Render.mouseY
+    self.pmx, self.pmy = self.mouseX, self.mouseY
 
     if self.show then
         self:drawBorders(2)

@@ -1,7 +1,5 @@
 Render = {}
 Render.mouseDown = false
-Render.mouseX = false
-Render.mouseY = false
 
 local MAX_TRANSORM_ANGLE = 20
 local screenWidth, screenHeight = guiGetScreenSize()
@@ -53,8 +51,6 @@ local function draw()
         local rotationY = (mouseY - screenHeight / 2) / screenHeight * MAX_TRANSORM_ANGLE
         RenderTarget3D.setTransform(renderTarget3D, rotationX, rotationY, 0)
     end
-
-    Render.mouseX, Render.mouseY = mouseX, mouseY
 end
 
 local function update(dt)
@@ -74,6 +70,7 @@ local function dxClickHandler(component, btn, state, mx, my)
     my = my - component.y
 
     local children = component.children
+
     for i, childComponent in ipairs(children) do
         if dxClickHandler(childComponent, btn, state, mx, my) then
             return true
@@ -90,7 +87,7 @@ local function dxClickHandler(component, btn, state, mx, my)
             triggerEvent("ui.mouseDown", component.element, btn)
             triggerEvent("ui.click", component.element, btn, state)
 
-            if component.parent and component.parent == component:getRootComponent() then
+            if component:isParentRoot() then
                 return true
             end
         end
@@ -138,6 +135,7 @@ local function dxKeyHandler(component, key, down)
     end
 
     local children = component.children
+
     for i, childComponent in ipairs(children) do
         if dxKeyHandler(childComponent, key, down) then
             return true

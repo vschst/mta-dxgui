@@ -98,7 +98,7 @@ function Thumb:setHeight(height)
 end
 
 function Thumb:draw()
-    local parent = self.parent
+    local parent = self:getParent()
 
     if parent then
         local pos = utils:scaleLinear(self.y, parent.y, parent.y + parent.height - self.height, parent.min, parent.max)
