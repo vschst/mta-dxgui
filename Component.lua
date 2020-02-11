@@ -47,8 +47,8 @@ function Component:render(mouseX, mouseY)
         return
     end
 
-    mouseX = mouseX - self.x
-    mouseY = mouseY - self.y
+    mouseX = mouseX - self.ox
+    mouseY = mouseY - self.oy
     self.mouseX = mouseX
     self.mouseY = mouseY
 
@@ -399,6 +399,8 @@ function Component:exec(name, ...)
         return self:getEnabled(...)
     elseif name == "setEnabled" then
         return self:setEnabled(...)
+    elseif name == "setOnTop" then
+        return self:setOnTop(...)
     elseif type(self.execInternal) == "function" then
         return self:execInternal(name, ...)
     end

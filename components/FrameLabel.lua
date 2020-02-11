@@ -46,7 +46,12 @@ function FrameLabel.create(properties)
     component.layout = loadLayout(properties.layout)
     component.scrollbarWidth = 10 * component.scale.x
     component.scrollbarVisible = true
-    component.scrollbar = Scrollbar.create(component.width - component.scrollbarWidth, 0, component.scrollbarWidth, component.height):setParent(component)
+    component.scrollbar = Scrollbar.create({
+        x = component.width - component.scrollbarWidth,
+        y = 0,
+        width = component.scrollbarWidth,
+        height = component.height
+    }):setParent(component)
 
     component.scrollbar:on('change', function(pos)
         if component.scrollbar.mouseDown then

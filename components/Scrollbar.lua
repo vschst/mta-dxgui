@@ -13,7 +13,12 @@ function Scrollbar.create(properties)
     component._type = "ui-scrollbar"
     component.min = 0
     component.max = 100
-    component.thumb = Thumb.create(0, 0, component.width, component.width):setParent(component)
+    component.thumb = Thumb.create({
+        x = 0,
+        y = 0,
+        width = component.width,
+        height = component.width
+    }):setParent(component)
 
     return component
 end
@@ -22,7 +27,8 @@ function Scrollbar:draw()
     local x, y, width, height = self.x, self.y, self.width, self.height
     local thumb = self.thumb
 
-    thumb.dragArea.dragging = (Render.mouseDown and Render.mouseY < y + height and thumb.pos > self.min) or (Render.mouseDown and Render.mouseY > y and thumb.pos < self.max-  1)
+    thumb.dragArea.dragging = (Render.mouseDown and self.mouseY < height and thumb.pos > self.min) or (Render.mouseDown and self.mouseY > 0 and thumb.pos < self.max - 1)
+
     Drawing.setColor(ScrollbarLayout.bgColor)
     Drawing.rectangle(x, y, width, height)
 end

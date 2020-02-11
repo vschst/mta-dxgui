@@ -1,4 +1,5 @@
 Render = {}
+Render.mouseClick = false
 Render.mouseDown = false
 
 local MAX_TRANSORM_ANGLE = 20
@@ -20,24 +21,28 @@ local function draw()
     Drawing.origin()
 
     local mouseX, mouseY = getMousePosition()
+
     if Messages.isActive() then
         mouseX = 0
         mouseY = 0
     end
 
-    local newMouseState = getKeyState("mouse1")
-    if mouseX and not Render.mouseClick and newMouseState and not oldMouseState then
-        Render.mouseDown = true
-    end
-    oldMouseState = newMouseState
+    local newMouseState = getKeyState("mouse1") or getKeyState('mouse2') or getKeyState('mouse3')
 
+    if mouseX and not Render.mouseClick and newMouseState and not oldMouseState then
+        Render.mouseClick= true
+    end
+
+    oldMouseState = newMouseState
+    Render.mouseDown = newMouseState
     RenderTarget3D.set(renderTarget3D)
+
     for resourceRoot, resourceInfo in pairs(Elements.resources) do
         resourceInfo.rootComponent:render(mouseX, mouseY)
     end
     dxSetRenderTarget()
 
-    Render.mouseDown = false
+    Render.mouseClick = false
 
     -- Draw renderTarget3D
     if renderTarget3D then
@@ -77,6 +82,8 @@ local function dxClickHandler(component, btn, state, mx, my)
         end
     end
 
+    local element = component.element
+
     if state == 'down' then
         if component.mouseOver then
             component.mouseDown = true
@@ -84,8 +91,12 @@ local function dxClickHandler(component, btn, state, mx, my)
 
             component:emit("mousedown", btn)
             component:emit("click", btn, state)
-            triggerEvent("ui.mouseDown", component.element, btn)
-            triggerEvent("ui.click", component.element, btn, state)
+
+
+            if isElement(element) then
+                triggerEvent("ui.mouseDown", element, btn)
+                triggerEvent("ui.click", element, btn, state)
+            end
 
             if component:isParentRoot() then
                 return true
@@ -95,8 +106,11 @@ local function dxClickHandler(component, btn, state, mx, my)
         if component.mouseOver and component.focused and component.mouseDown then
             component:emit("mouseup", btn)
             component:emit("click", btn, state)
-            triggerEvent("ui.mouseUp", component.element, btn)
-            triggerEvent("ui.click", component.element, btn, state)
+
+            if isElement(element) then
+                triggerEvent("ui.mouseUp", element, btn)
+                triggerEvent("ui.click", element, btn, state)
+            end
 
             component.mouseDown = false
 

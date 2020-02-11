@@ -18,7 +18,7 @@ function DragArea.create(properties)
 end
 
 function DragArea:draw()
-    local parent = self.getParent()
+    local parent = self:getParent()
 
     if not parent then
         return
@@ -50,18 +50,19 @@ function DragArea:draw()
         end
 
         local parentParent = parent.parent
+        local deltaX, deltaY = (self.mouseX - pmx), (self.mouseY - pmy)
 
         if parentParent then
             if parent.type == 'image' then
-                parent.ox = utils:constrain(parent.ox + (self.mouseX - pmx), 0, parentParent.width - width - parentParent.offsetX)
-                parent.oy = utils:constrain(parent.oy + (self.mouseY - pmy), 0, parentParent.height - height - parentParent.offsetY)
+                parent.ox = utils:constrain(parent.ox + deltaX, 0, parentParent.width - width - parentParent.offsetX)
+                parent.oy = utils:constrain(parent.oy + deltaY, 0, parentParent.height - height - parentParent.offsetY)
             else
-                parent.ox = utils:constrain(parent.ox + (self.mouseX - pmx), 0, parentParent.width - parent.width - parentParent.offsetX)
-                parent.oy = utils:constrain(parent.oy + (self.mouseY - pmy), 0, parentParent.height - parent.height - parentParent.offsetY)
+                parent.ox = utils:constrain(parent.ox + deltaX, 0, parentParent.width - parent.width - parentParent.offsetX)
+                parent.oy = utils:constrain(parent.oy + deltaY, 0, parentParent.height - parent.height - parentParent.offsetY)
             end
         else
-            parent.x = parent.x + (self.mouseX - pmx)
-            parent.y = parent.y + (self.mouseY - pmy)
+            parent.x = parent.x + deltaX
+            parent.y = parent.y + deltaY
         end
 
         self.dragging = true
@@ -69,7 +70,9 @@ function DragArea:draw()
         self.dragging = false
     end
 
-    self.pmx, self.pmy = self.mouseX, self.mouseY
+    if getTickCount() % 1000 < 100 then
+        self.pmx, self.pmy = self.mouseX, self.mouseY
+    end
 
     if self.show then
         self:drawBorders(2)

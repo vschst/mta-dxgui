@@ -99,7 +99,7 @@ function Input:draw()
     local textLeftX = self.x + textOffsetX
     local textBoxWidth = self.width - textOffsetX * 2
     local caretTextWidth = dxGetTextWidth(utf8.sub(text, 1, self.caret.pos), 1, self.font, false)
-    local caretOffsetX = 2 * self.scale.x
+    local caretOffsetX = 0.5 * self.scale.x
     local caretX = self.x + textOffsetX + caretTextWidth + caretOffsetX
     local textAlign = "left"
     if (caretTextWidth > textBoxWidth) then

@@ -3,7 +3,7 @@
     <download_priority_group>1</download_priority_group>
     <include resource="assets"/>
     <include resource="utils"/>
-    <info author="Viktor, Tails" version="2020-02-11" type="script" name="DX UI"/>
+    <info author="Viktor, Tails" version="2020-02-12" type="script" name="DX UI"/>
 
     <script type="client" src="utils.lua"/>
     <script type="client" src="Fonts.lua"/>
